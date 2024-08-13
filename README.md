@@ -1,73 +1,157 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# NestJS Application with PostgreSQL and Kafka
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This is a NestJS application that integrates with PostgreSQL for database management and Kafka for messaging. The application provides endpoints for user authentication and CRUD operations on users.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Table of Contents
 
-## Description
+- [Features](#features)
+- [Installation](#installation)
+- [Environment Variables](#environment-variables)
+- [Running the Application](#running-the-application)
+- [API Endpoints](#api-endpoints)
+  - [Authentication](#authentication)
+  - [User Management](#user-management)
+- [Kafka Integration](#kafka-integration)
+- [Database Migrations](#database-migrations)
+- [License](#license)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Features
+
+- **User Authentication**: Sign up, login, and secure endpoints with JWT.
+- **User Management**: Full CRUD (Create, Read, Update, Delete) operations on users.
+- **PostgreSQL**: Used as the primary database for storing user data.
+- **Kafka**: Integrated for messaging and event-driven architecture.
 
 ## Installation
 
-```bash
-$ npm install
-```
+1. **Clone the repository**:
 
-## Running the app
+   \`\`\`bash
+   git clone https://github.com/your-username/your-repository.git
+   cd your-repository
+   \`\`\`
 
-```bash
-# development
-$ npm run start
+2. **Install dependencies**:
 
-# watch mode
-$ npm run start:dev
+   \`\`\`bash
+   npm install
+   \`\`\`
 
-# production mode
-$ npm run start:prod
-```
+3. **Set up environment variables**:
 
-## Test
+   Create a \`.env\` file in the root of the project and configure it according to your environment.
 
-```bash
-# unit tests
-$ npm run test
+## Environment Variables
 
-# e2e tests
-$ npm run test:e2e
+Set the following environment variables in your \`.env\` file:
 
-# test coverage
-$ npm run test:cov
-```
+\`\`\`plaintext
+# Application
+PORT=3000
+JWT_SECRET=your_jwt_secret
+JWT_EXPIRES_IN=3600s
 
-## Support
+# PostgreSQL
+DATABASE_URL=postgres://user:password@localhost:5432/your_database
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+# Kafka
+KAFKA_BROKER=kafka:9092
+KAFKA_CLIENT_ID=nestjs-app
+KAFKA_GROUP_ID=nestjs-group
+\`\`\`
 
-## Stay in touch
+## Running the Application
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+1. **Run the database migrations**:
+
+   \`\`\`bash
+   npm run typeorm migration:run
+   \`\`\`
+
+2. **Start the application**:
+
+   \`\`\`bash
+   npm run start:dev
+   \`\`\`
+
+   The application will start on the port specified in your \`.env\` file (default: \`3000\`).
+
+## API Endpoints
+
+### Authentication
+
+- **POST /auth/signup**: Register a new user.
+
+  Request body:
+
+  \`\`\`json
+  {
+    "username": "string",
+    "password": "string"
+  }
+  \`\`\`
+
+- **POST /auth/login**: Authenticate a user and return a JWT token.
+
+  Request body:
+
+  \`\`\`json
+  {
+    "username": "string",
+    "password": "string"
+  }
+  \`\`\`
+
+### User Management
+
+- **GET /users**: Get a list of all users.
+
+- **GET /users/:id**: Get details of a specific user by ID.
+
+- **POST /users**: Create a new user.
+
+  Request body:
+
+  \`\`\`json
+  {
+    "username": "string",
+    "password": "string",
+    "email": "string"
+  }
+  \`\`\`
+
+- **PUT /users/:id**: Update details of a specific user by ID.
+
+  Request body:
+
+  \`\`\`json
+  {
+    "username": "string",
+    "email": "string"
+  }
+  \`\`\`
+
+- **DELETE /users/:id**: Delete a user by ID.
+
+## Kafka Integration
+
+The application is integrated with Kafka for messaging. Kafka is used to publish and consume events related to user operations, such as user creation and updates.
+
+- **Kafka Topics**:
+  - \`user_created\`: Published when a new user is created.
+  - \`user_updated\`: Published when a user is updated.
+  - \`user_deleted\`: Published when a user is deleted.
+
+Configure the Kafka broker using the \`KAFKA_BROKER\` environment variable.
+
+## Database Migrations
+
+This application uses TypeORM for database management. Run migrations with the following command:
+
+\`\`\`bash
+npm run typeorm migration:run
+\`\`\`
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
