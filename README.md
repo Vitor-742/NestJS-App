@@ -75,4 +75,6 @@ A aplicação está integrada com o Kafka para mensagens. O Kafka é usado para 
   - \`user_created\`: Publicado quando um novo usuário é criado.
   - \`user_updated\`: Publicado quando um usuário é atualizado.
 
-Configure o broker Kafka usando a variável de ambiente \`KAFKA_BROKER\`.
+## Deploy
+
+Acesse a API através da url: [Swagger](starsoft-test-production.up.railway.app)
