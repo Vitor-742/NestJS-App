@@ -29,29 +29,29 @@ envio e recebimento de mensagens de log
 
 1. **Clone o repositório**:
 
-   \`\`\`bash
+   ```bash
    git clone https://github.com/Vitor-742/starsoft-test.git
    cd starsoft-test
-   \`\`\`
+   ```
 
 2. **Instale as dependências**:
 
-   \`\`\`bash
+   ```bash
    npm install
-   \`\`\`
+   ```
 
 3. **Inicie os containers docker**:
-   \`\`\`bash
+   ```bash
    docker-compose up -d
-   \`\`\`
+   ```
 
 ## Executando a Aplicação
 
 1. **Inicie a aplicação**:
 
-   \`\`\`bash
+   ```bash
    npm start
-   \`\`\`
+   ```
 
    A aplicação será iniciada na porta especificada no seu arquivo \`.env\` (padrão: \`3000\`).
 
