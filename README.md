@@ -77,4 +77,4 @@ A aplicação está integrada com o Kafka para mensagens. O Kafka é usado para 
 
 ## Deploy
 
-Acesse a API através da url: [Swagger](starsoft-test-production.up.railway.app)
+Acesse a API através da url: [Swagger](https://starsoft-test-production.up.railway.app/api/)
