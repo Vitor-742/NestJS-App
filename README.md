@@ -7,14 +7,12 @@ envio e recebimento de mensagens de log
 
 - [Recursos](#recursos)
 - [Instalação](#instalação)
-- [Variáveis de Ambiente](#variáveis-de-ambiente)
 - [Executando a Aplicação](#executando-a-aplicação)
 - [Endpoints da API](#endpoints-da-api)
-  - [Autenticação](#autenticação)
-  - [Gerenciamento de Usuários](#gerenciamento-de-usuários)
+- [Swagger](#swagger)
+- [Redis](#redis)
 - [Integração com Kafka](#integração-com-kafka)
-- [Migrações de Banco de Dados](#migrações-de-banco-de-dados)
-- [Licença](#licença)
+- [Deploy](#deploy)
 
 ## Recursos
 
@@ -62,10 +60,14 @@ envio e recebimento de mensagens de log
 
 - [Swagger Local](http://localhost:3000/api/)
 - Para autenticar as requisições usando um Bearer Token na interface do Swagger, siga os seguintes passos:
+    - O login, no Swagger, é feito com informações predefinidas, então o padrão é funcionar com as credenciais já configuradas. Caso queira usar sua própria autenticação, ou esteja no repositório local, registre-se pelo endpoint POST /users, que também é público.
     - Obtenha o Token: Primeiro, faça login através do endpoint /auth/login para obter o token JWT. Esse token será retornado no campo accessToken da resposta.
     - Configure a Autenticação no Swagger: No topo direito da interface do Swagger, clique no botão Authorize. Uma janela modal será aberta.
     - Informe o Token: No campo de autenticação, insira o token JWT precedido da palavra Bearer, por exemplo: Bearer seu_token_aqui. Clique em Authorize para aplicar o token.
     - Faça as Requisições: Agora, você pode fazer requisições autenticadas aos endpoints protegidos da API. O token será automaticamente incluído no cabeçalho Authorization de cada requisição.
+
+## Redis
+- Na aplicação o Redis está sendo usado como cache para autenticação de usuário, sendo assim, depois de 5 minutos seu token é expirado, e é necessário refazer a autenticação de usuário.
 
 ## Integração com Kafka
 
@@ -74,6 +76,10 @@ A aplicação está integrada com o Kafka para mensagens. O Kafka é usado para 
 - **Tópicos Kafka**:
   - \`user_created\`: Publicado quando um novo usuário é criado.
   - \`user_updated\`: Publicado quando um usuário é atualizado.
+
+  - Como resposta visual do Kafka, toda vez que é feita a criação ou atualização de um usuário, é emitida uma mensagem de log no console
+    
+![Captura de tela 2024-08-12 201301](https://github.com/user-attachments/assets/46b6bd5b-935d-4963-b759-f12360f653ff)
 
 ## Deploy
 
