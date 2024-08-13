@@ -1,157 +1,78 @@
-# NestJS Application with PostgreSQL and Kafka
+# Aplicação NestJs para teste técnico da starsoft com Redis, PostgreSQL e Kafka
 
-This is a NestJS application that integrates with PostgreSQL for database management and Kafka for messaging. The application provides endpoints for user authentication and CRUD operations on users.
+Essa aplicação é uma API(express) usando NestJs como framework, Redis para cache de autenticação, PostgreSQL como banco de dados padrão da aplicação e Kafka para
+envio e recebimento de mensagens de log
 
-## Table of Contents
+## Índice
 
-- [Features](#features)
-- [Installation](#installation)
-- [Environment Variables](#environment-variables)
-- [Running the Application](#running-the-application)
-- [API Endpoints](#api-endpoints)
-  - [Authentication](#authentication)
-  - [User Management](#user-management)
-- [Kafka Integration](#kafka-integration)
-- [Database Migrations](#database-migrations)
-- [License](#license)
+- [Recursos](#recursos)
+- [Instalação](#instalação)
+- [Variáveis de Ambiente](#variáveis-de-ambiente)
+- [Executando a Aplicação](#executando-a-aplicação)
+- [Endpoints da API](#endpoints-da-api)
+  - [Autenticação](#autenticação)
+  - [Gerenciamento de Usuários](#gerenciamento-de-usuários)
+- [Integração com Kafka](#integração-com-kafka)
+- [Migrações de Banco de Dados](#migrações-de-banco-de-dados)
+- [Licença](#licença)
 
-## Features
+## Recursos
 
-- **User Authentication**: Sign up, login, and secure endpoints with JWT.
-- **User Management**: Full CRUD (Create, Read, Update, Delete) operations on users.
-- **PostgreSQL**: Used as the primary database for storing user data.
-- **Kafka**: Integrated for messaging and event-driven architecture.
+- **Autenticação de Usuários**: Cadastro, login e proteção de endpoints com JWT.
+- **Gerenciamento de Usuários**: Operações CRUD (Criar, Ler, Atualizar, Excluir) completas para usuários.
+- **PostgreSQL**: Usado como banco de dados principal para armazenar dados de usuários.
+- **Redis**: Usado como banco de dados para cache do token de autorização
+- **Kafka**: Integrado para mensagens e arquitetura orientada a eventos.
+- **Swagger**: Documentação automatica de endpoints
 
-## Installation
+## Instalação
 
-1. **Clone the repository**:
+1. **Clone o repositório**:
 
    \`\`\`bash
-   git clone https://github.com/your-username/your-repository.git
-   cd your-repository
+   git clone https://github.com/Vitor-742/starsoft-test.git
+   cd starsoft-test
    \`\`\`
 
-2. **Install dependencies**:
+2. **Instale as dependências**:
 
    \`\`\`bash
    npm install
    \`\`\`
 
-3. **Set up environment variables**:
-
-   Create a \`.env\` file in the root of the project and configure it according to your environment.
-
-## Environment Variables
-
-Set the following environment variables in your \`.env\` file:
-
-\`\`\`plaintext
-# Application
-PORT=3000
-JWT_SECRET=your_jwt_secret
-JWT_EXPIRES_IN=3600s
-
-# PostgreSQL
-DATABASE_URL=postgres://user:password@localhost:5432/your_database
-
-# Kafka
-KAFKA_BROKER=kafka:9092
-KAFKA_CLIENT_ID=nestjs-app
-KAFKA_GROUP_ID=nestjs-group
-\`\`\`
-
-## Running the Application
-
-1. **Run the database migrations**:
-
+3. **Inicie os containers docker**:
    \`\`\`bash
-   npm run typeorm migration:run
+   docker-compose up -d
    \`\`\`
 
-2. **Start the application**:
+## Executando a Aplicação
+
+1. **Inicie a aplicação**:
 
    \`\`\`bash
-   npm run start:dev
+   npm start
    \`\`\`
 
-   The application will start on the port specified in your \`.env\` file (default: \`3000\`).
+   A aplicação será iniciada na porta especificada no seu arquivo \`.env\` (padrão: \`3000\`).
 
-## API Endpoints
+## Endpoints da API
+- Para ver todos os endpoints da API visite o Swagger
 
-### Authentication
+## Swagger
 
-- **POST /auth/signup**: Register a new user.
+- [Swagger Local](http://localhost:3000/api/)
+- Para autenticar as requisições usando um Bearer Token na interface do Swagger, siga os seguintes passos:
+    - Obtenha o Token: Primeiro, faça login através do endpoint /auth/login para obter o token JWT. Esse token será retornado no campo accessToken da resposta.
+    - Configure a Autenticação no Swagger: No topo direito da interface do Swagger, clique no botão Authorize. Uma janela modal será aberta.
+    - Informe o Token: No campo de autenticação, insira o token JWT precedido da palavra Bearer, por exemplo: Bearer seu_token_aqui. Clique em Authorize para aplicar o token.
+    - Faça as Requisições: Agora, você pode fazer requisições autenticadas aos endpoints protegidos da API. O token será automaticamente incluído no cabeçalho Authorization de cada requisição.
 
-  Request body:
+## Integração com Kafka
 
-  \`\`\`json
-  {
-    "username": "string",
-    "password": "string"
-  }
-  \`\`\`
+A aplicação está integrada com o Kafka para mensagens. O Kafka é usado para publicar e consumir eventos relacionados às operações de usuário, como criação e atualização de usuários.
 
-- **POST /auth/login**: Authenticate a user and return a JWT token.
+- **Tópicos Kafka**:
+  - \`user_created\`: Publicado quando um novo usuário é criado.
+  - \`user_updated\`: Publicado quando um usuário é atualizado.
 
-  Request body:
-
-  \`\`\`json
-  {
-    "username": "string",
-    "password": "string"
-  }
-  \`\`\`
-
-### User Management
-
-- **GET /users**: Get a list of all users.
-
-- **GET /users/:id**: Get details of a specific user by ID.
-
-- **POST /users**: Create a new user.
-
-  Request body:
-
-  \`\`\`json
-  {
-    "username": "string",
-    "password": "string",
-    "email": "string"
-  }
-  \`\`\`
-
-- **PUT /users/:id**: Update details of a specific user by ID.
-
-  Request body:
-
-  \`\`\`json
-  {
-    "username": "string",
-    "email": "string"
-  }
-  \`\`\`
-
-- **DELETE /users/:id**: Delete a user by ID.
-
-## Kafka Integration
-
-The application is integrated with Kafka for messaging. Kafka is used to publish and consume events related to user operations, such as user creation and updates.
-
-- **Kafka Topics**:
-  - \`user_created\`: Published when a new user is created.
-  - \`user_updated\`: Published when a user is updated.
-  - \`user_deleted\`: Published when a user is deleted.
-
-Configure the Kafka broker using the \`KAFKA_BROKER\` environment variable.
-
-## Database Migrations
-
-This application uses TypeORM for database management. Run migrations with the following command:
-
-\`\`\`bash
-npm run typeorm migration:run
-\`\`\`
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+Configure o broker Kafka usando a variável de ambiente \`KAFKA_BROKER\`.
