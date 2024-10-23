@@ -1,4 +1,4 @@
-# Aplicação NestJs para teste técnico da starsoft com Redis, PostgreSQL e Kafka
+# Aplicação NestJs com Redis, PostgreSQL e Kafka
 
 Essa aplicação é uma API(express) usando NestJs como framework, Redis para cache de autenticação, PostgreSQL como banco de dados padrão da aplicação e Kafka para
 envio e recebimento de mensagens de log
