@@ -1,86 +1,82 @@
-# Aplicação NestJs com Redis, PostgreSQL e Kafka
 
-Essa aplicação é uma API(express) usando NestJs como framework, Redis para cache de autenticação, PostgreSQL como banco de dados padrão da aplicação e Kafka para
-envio e recebimento de mensagens de log
+# NestJs Application with Redis, PostgreSQL, and Kafka
 
-## Índice
+This application is an API (Express) using NestJs as the framework, Redis for authentication caching, PostgreSQL as the application's default database, and Kafka for sending and receiving log messages.
 
-- [Recursos](#recursos)
-- [Instalação](#instalação)
-- [Executando a Aplicação](#executando-a-aplicação)
-- [Endpoints da API](#endpoints-da-api)
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Running the Application](#running-the-application)
+- [API Endpoints](#api-endpoints)
 - [Swagger](#swagger)
 - [Redis](#redis)
-- [Integração com Kafka](#integração-com-kafka)
-- [Deploy](#deploy)
+- [Kafka Integration](#kafka-integration)
 
-## Recursos
+## Features
 
-- **Autenticação de Usuários**: Cadastro, login e proteção de endpoints com JWT.
-- **Gerenciamento de Usuários**: Operações CRUD (Criar, Ler, Atualizar, Excluir) completas para usuários.
-- **PostgreSQL**: Usado como banco de dados principal para armazenar dados de usuários.
-- **Redis**: Usado como banco de dados para cache do token de autorização
-- **Kafka**: Integrado para mensagens e arquitetura orientada a eventos.
-- **Swagger**: Documentação automatica de endpoints
+- **User Authentication**: Registration, login, and endpoint protection with JWT.
+- **User Management**: Complete CRUD (Create, Read, Update, Delete) operations for users.
+- **PostgreSQL**: Used as the main database to store user data.
+- **Redis**: Used as a database for caching the authorization token.
+- **Kafka**: Integrated for messaging and event-driven architecture.
+- **Swagger**: Automatic documentation of endpoints.
 
-## Instalação
+## Installation
 
-1. **Clone o repositório**:
+1. **Clone the repository**:
 
    ```bash
    git clone https://github.com/Vitor-742/starsoft-test.git
    cd starsoft-test
    ```
 
-2. **Instale as dependências**:
+2. **Install dependencies**:
 
    ```bash
    npm install
    ```
 
-3. **Inicie os containers docker**:
+3. **Start the Docker containers**:
+
    ```bash
    docker-compose up -d
    ```
 
-## Executando a Aplicação
+## Running the Application
 
-1. **Inicie a aplicação**:
+1. **Start the application**:
 
    ```bash
    npm start
    ```
 
-   A aplicação será iniciada na porta especificada no seu arquivo \`.env\` (padrão: \`3000\`).
+   The application will start on the port specified in your `.env` file (default: `3000`).
 
-## Endpoints da API
-- Para ver todos os endpoints da API visite o Swagger
+## API Endpoints
+- To see all the API endpoints, visit Swagger.
 
 ## Swagger
 
-- [Swagger Local](http://localhost:3000/api/)
-- Para autenticar as requisições usando um Bearer Token na interface do Swagger, siga os seguintes passos:
-    - O login, no Swagger, é feito com informações predefinidas, então o padrão é funcionar com as credenciais já configuradas. Caso queira usar sua própria autenticação, ou esteja no repositório local, registre-se pelo endpoint POST /users, que também é público.
-    - Obtenha o Token: Primeiro, faça login através do endpoint /auth/login para obter o token JWT. Esse token será retornado no campo accessToken da resposta.
-    - Configure a Autenticação no Swagger: No topo direito da interface do Swagger, clique no botão Authorize. Uma janela modal será aberta.
-    - Informe o Token: No campo de autenticação, insira o token JWT precedido da palavra Bearer, por exemplo: Bearer seu_token_aqui. Clique em Authorize para aplicar o token.
-    - Faça as Requisições: Agora, você pode fazer requisições autenticadas aos endpoints protegidos da API. O token será automaticamente incluído no cabeçalho Authorization de cada requisição.
+- [Local Swagger](http://localhost:3000/api/)
+- To authenticate requests using a Bearer Token in the Swagger interface, follow these steps:
+    - Login in Swagger is done with predefined information, so the default is to work with the already configured credentials. If you want to use your own authentication or are on the local repository, register through the POST /users endpoint, which is also public.
+    - Obtain the Token: First, log in through the /auth/login endpoint to get the JWT token. This token will be returned in the accessToken field of the response.
+    - Set up Authentication in Swagger: In the top right corner of the Swagger interface, click the Authorize button. A modal window will open.
+    - Enter the Token: In the authentication field, enter the JWT token preceded by the word Bearer, for example: Bearer your_token_here. Click Authorize to apply the token.
+    - Make Requests: Now you can make authenticated requests to the protected API endpoints. The token will be automatically included in the Authorization header of each request.
 
 ## Redis
-- Na aplicação o Redis está sendo usado como cache para autenticação de usuário, sendo assim, depois de 5 minutos seu token é expirado, e é necessário refazer a autenticação de usuário.
+- In the application, Redis is being used as a cache for user authentication; thus, after 5 minutes, your token expires, and you need to re-authenticate the user.
 
-## Integração com Kafka
+## Kafka Integration
 
-A aplicação está integrada com o Kafka para mensagens. O Kafka é usado para publicar e consumir eventos relacionados às operações de usuário, como criação e atualização de usuários.
+The application is integrated with Kafka for messaging. Kafka is used to publish and consume events related to user operations, such as creating and updating users.
 
-- **Tópicos Kafka**:
-  - \`user_created\`: Publicado quando um novo usuário é criado.
-  - \`user_updated\`: Publicado quando um usuário é atualizado.
+- **Kafka Topics**:
+  - `user_created`: Published when a new user is created.
+  - `user_updated`: Published when a user is updated.
 
-  - Como resposta visual do Kafka, toda vez que é feita a criação ou atualização de um usuário, é emitida uma mensagem de log no console
-    
-![Captura de tela 2024-08-12 201301](https://github.com/user-attachments/assets/46b6bd5b-935d-4963-b759-f12360f653ff)
+  - As a visual response from Kafka, every time a user is created or updated, a log message is emitted to the console.
 
-## Deploy
-
-Acesse a API através da url: [Swagger](https://starsoft-test-production.up.railway.app/api/)
+![Screenshot 2024-08-12 201301](https://github.com/user-attachments/assets/46b6bd5b-935d-4963-b759-f12360f653ff)
