@@ -28,8 +28,8 @@ envio e recebimento de mensagens de log
 1. **Clone o repositório**:
 
    ```bash
-   git clone https://github.com/Vitor-742/starsoft-test.git
-   cd starsoft-test
+   git clone https://github.com/Vitor-742/NestJS-App.git
+   cd NestJS-App
    ```
 
 2. **Instale as dependências**:

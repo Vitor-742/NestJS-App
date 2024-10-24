@@ -27,8 +27,8 @@ This application is an API (Express) using NestJs as the framework, Redis for au
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/Vitor-742/starsoft-test.git
-   cd starsoft-test
+   git clone https://github.com/Vitor-742/NestJS-App.git
+   cd NestJS-App
    ```
 
 2. **Install dependencies**:
